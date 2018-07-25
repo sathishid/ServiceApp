@@ -19,6 +19,7 @@ import static com.ara.serviceapp.utils.Helper.CUSTOMER_SELECT;
 import static com.ara.serviceapp.utils.Helper.REQUEST_CODE;
 import static com.ara.serviceapp.utils.Helper.TRUCK_EXTRA;
 import static com.ara.serviceapp.utils.Helper.TRUCK_SELECT;
+import static com.ara.serviceapp.utils.Helper.showSnackBar;
 
 public class ListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private int requestCode;
@@ -39,6 +40,10 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
         switch (requestCode) {
             case CUSTOMER_SELECT:
                 List<Customer> customerList = AppLogic.getAppLogic().getCustomers();
+                if (customerList == null) {
+                    showSnackBar(listView, R.string.something_went_wrong);
+                    return;
+                }
                 ArrayAdapter<Customer> arrayAdapter = new ArrayAdapter<Customer>(this,
                         android.R.layout.simple_list_item_1, customerList);
                 listView.setAdapter(arrayAdapter);

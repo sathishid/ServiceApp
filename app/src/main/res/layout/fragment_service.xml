@@ -79,13 +79,42 @@
                     android:text="@string/sample_company_name" />
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/service_employee_layout"
+                style="@style/InfoView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/service_customer_layout"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/employees" />
+
+                <TextView
+                    android:id="@+id/service_employees"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:drawableEnd="@drawable/ic_right_arrow"
+                    android:drawableRight="@drawable/ic_right_arrow"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/sample_emp_list" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/service_truck_layout"
                 style="@style/InfoView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/service_customer_layout"
+                android:layout_below="@+id/service_employee_layout"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"

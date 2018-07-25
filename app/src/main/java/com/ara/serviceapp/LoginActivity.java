@@ -21,9 +21,6 @@ import android.widget.EditText;
 import com.ara.serviceapp.models.User;
 import com.ara.serviceapp.utils.AppLogic;
 
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -160,31 +157,24 @@ public class LoginActivity extends AppCompatActivity {
             // perform the user login attempt.
             showProgress(true);
 
-            Call<ResponseBody> call = getAppLogic().getAppService().validateUser(LOGIN_ACTION, email, password);
-            call.enqueue(new Callback<ResponseBody>() {
+            Call<User> call = getAppLogic().getAppService().validateUser(LOGIN_ACTION, email, password);
+            call.enqueue(new Callback<User>() {
                 @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                public void onResponse(Call<User> call, Response<User> response) {
                     showProgress(false);
-                    try {
-                        String jsonResult = response.body().string();
-
-                        AppLogic.getAppLogic().CurrentUser = User.fromJson(jsonResult);
-                        if (AppLogic.getAppLogic().CurrentUser == null)
-                            showSnackBar(mLoginFormView, "Invalid User ID/Password");
-                        else {
-                            updateSharedPreference();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-
-                    } catch (IOException exception) {
-                        showSnackBar(mLoginFormView, exception.getMessage());
+                    AppLogic.getAppLogic().CurrentUser = response.body();
+                    if (AppLogic.getAppLogic().CurrentUser == null)
+                        showSnackBar(mLoginFormView, "Invalid User ID/Password");
+                    else {
+                        updateSharedPreference();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<User> call, Throwable t) {
                     showProgress(false);
                     showSnackBar(mLoginFormView, t.getMessage());
                 }
@@ -207,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 2;
     }
 
     /**

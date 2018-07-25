@@ -3,6 +3,7 @@ package com.ara.serviceapp.utils;
 import android.util.Log;
 
 import com.ara.serviceapp.models.Customer;
+import com.ara.serviceapp.models.Employee;
 import com.ara.serviceapp.models.Truck;
 import com.ara.serviceapp.models.User;
 
@@ -23,6 +24,7 @@ public class AppLogic {
     private AppService appService;
     private List<Customer> customers;
     private static AppLogic appLogic;
+    private static List<User> users;
 
     private AppLogic() {
         retrofit = new Retrofit.Builder()
@@ -30,22 +32,6 @@ public class AppLogic {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         appService = retrofit.create(AppService.class);
-        customers = new ArrayList<>();
-        Customer customer = new Customer(1, "EMP001", "E1");
-        customer.addTruck(new Truck(11, "TN11"));
-        customer.addTruck(new Truck(12, "TN12"));
-        customers.add(customer);
-
-        customer = new Customer(2, "EMP002", "E2");
-        customer.addTruck(new Truck(21, "TN21"));
-        customer.addTruck(new Truck(22, "TN22"));
-        customers.add(customer);
-
-        customer = new Customer(3, "EMP003", "E3");
-        customer.addTruck(new Truck(31, "TN31"));
-        customer.addTruck(new Truck(32, "TN32"));
-        customers.add(customer);
-
     }
 
     public AppService getAppService() {
@@ -79,4 +65,26 @@ public class AppLogic {
         }
         return customers;
     }
+
+    public List<User> getUsers() {
+        if (users == null || users.size() == 0) {
+            appService.listUsers("employee")
+                    .enqueue(new Callback<List<User>>() {
+                        @Override
+                        public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                            users = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<User>> call, Throwable t) {
+                            users = null;
+                            Log.d("Get Users", t.getMessage());
+                        }
+                    });
+        }
+        return users;
+    }
+
+
+
 }

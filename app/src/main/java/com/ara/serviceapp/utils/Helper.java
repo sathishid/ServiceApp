@@ -23,12 +23,15 @@ public class Helper {
     public final static String REQUEST_CODE = "requestCode";
     public static final String CUSTOMER_EXTRA = "customer";
     public static final String TRUCK_EXTRA = "Truck";
+    public static final String SERVICE_EXTRA = "service";
+    public static final String USER_LIST_EXTRA="user-list";
 
 
     public final static int INTERNET_PERMISSION_REQUEST = 101;
     public final static int DATE_REQUEST_CODE = 102;
     public final static int CUSTOMER_SELECT = 103;
     public final static int TRUCK_SELECT = 104;
+    public final static int EMPLOYEE_SELECT = 105;
 
 
     public static void showSnackBar(View view, String message) {

@@ -23,11 +23,14 @@ import com.ara.serviceapp.R;
 import com.ara.serviceapp.models.Customer;
 import com.ara.serviceapp.models.ServiceDetial;
 import com.ara.serviceapp.models.Truck;
+import com.ara.serviceapp.models.User;
 import com.ara.serviceapp.utils.AppLogic;
 import com.ara.serviceapp.utils.Helper;
 import com.ara.serviceapp.utils.ListActivity;
+import com.ara.serviceapp.utils.MultiSelectListActivity;
 
 import java.util.Calendar;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -39,9 +42,11 @@ import static com.ara.serviceapp.utils.Helper.CUSTOMER_EXTRA;
 import static com.ara.serviceapp.utils.Helper.CUSTOMER_SELECT;
 import static com.ara.serviceapp.utils.Helper.DATE_EXTRA;
 import static com.ara.serviceapp.utils.Helper.DATE_REQUEST_CODE;
+import static com.ara.serviceapp.utils.Helper.EMPLOYEE_SELECT;
 import static com.ara.serviceapp.utils.Helper.REQUEST_CODE;
 import static com.ara.serviceapp.utils.Helper.TRUCK_EXTRA;
 import static com.ara.serviceapp.utils.Helper.TRUCK_SELECT;
+import static com.ara.serviceapp.utils.Helper.USER_LIST_EXTRA;
 import static com.ara.serviceapp.utils.Helper.dateToString;
 import static com.ara.serviceapp.utils.Helper.showSnackBar;
 
@@ -51,12 +56,14 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
     LinearLayout mDateLayout;
     LinearLayout mCustomerLayout;
     LinearLayout mTruckNoLayout;
+    LinearLayout mEmployeeLayout;
     ProgressBar progressBar;
     RelativeLayout layoutView;
 
     TextView mDateView;
     TextView mCustomerView;
     TextView mTruckNo;
+    TextView mEmployeesView;
     EditText mLocationEdit;
     EditText mNatureOfServiceEdit;
     EditText mSpareReplacedEdit;
@@ -64,13 +71,19 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
     RadioButton mPendingRadio;
     RadioButton mProgressRadio;
     RadioButton mCompletedRadio;
+
     Button mSaveButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_service, container, false);
+        //Fetch Details from server in background.
+        AppLogic.getAppLogic().getCustomers();
+        AppLogic.getAppLogic().getUsers();
+
         serviceDetial = new ServiceDetial();
+
         serviceDetial.setStatus(Helper.ServiceType.PENDING);
         serviceDetial.setDate(dateToString(Calendar.getInstance()));
         progressBar = (ProgressBar) rootView.findViewById(R.id.service_progressBar);
@@ -79,6 +92,8 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
         mDateView = (TextView) rootView.findViewById(R.id.service_date);
         mCustomerView = (TextView) rootView.findViewById(R.id.service_customer);
         mTruckNo = (TextView) rootView.findViewById(R.id.service_truck);
+        mEmployeesView = (TextView) rootView.findViewById(R.id.service_employees);
+
         mLocationEdit = (EditText) rootView.findViewById(R.id.service_location);
         mNatureOfServiceEdit = (EditText) rootView.findViewById(R.id.service_nature);
         mSpareReplacedEdit = (EditText) rootView.findViewById(R.id.service_spare_replace);
@@ -104,6 +119,9 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
 
         mTruckNoLayout = (LinearLayout) rootView.findViewById(R.id.service_truck_layout);
         mTruckNoLayout.setOnClickListener(this);
+
+        mEmployeeLayout = (LinearLayout) rootView.findViewById(R.id.service_employee_layout);
+        mEmployeeLayout.setOnClickListener(this);
 
         return rootView;
     }
@@ -146,6 +164,17 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
                 intent.putExtra(CUSTOMER_EXTRA, serviceDetial.getCustomer().toJson());
                 startActivityForResult(intent, TRUCK_SELECT);
                 break;
+            case R.id.service_employee_layout:
+                intent = new Intent(getContext(), MultiSelectListActivity.class);
+                List<User> users = serviceDetial.getUsers();
+                if (users != null && users.size() > 0) {
+                    intent.putExtra(USER_LIST_EXTRA, User.toJson(users));
+                } else {
+                    intent.putExtra(USER_LIST_EXTRA, "");
+                }
+
+                startActivityForResult(intent, EMPLOYEE_SELECT);
+                break;
         }
     }
 
@@ -153,7 +182,8 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
         if (hasError()) {
             return;
         }
-        Call<ResponseBody> call = AppLogic.getAppLogic().getAppService().addServiceDetail("serviceAdd", serviceDetial.toHashMap());
+        serviceDetial.setLogedUser(AppLogic.getAppLogic().CurrentUser);
+        Call<ResponseBody> call = AppLogic.getAppLogic().getAppService().postServiceDetail("serviceAdd", serviceDetial);
         showProgress(true);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -230,11 +260,30 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
                 mCustomerView.setText(customer.getCustomerName());
                 break;
             case TRUCK_SELECT:
-
                 json = data.getStringExtra(TRUCK_EXTRA);
                 Truck truck = Truck.fromGson(json);
                 serviceDetial.setTruck(truck);
                 mTruckNo.setText(truck.getTruckNo());
+                break;
+            case EMPLOYEE_SELECT:
+                json = data.getStringExtra(USER_LIST_EXTRA);
+                serviceDetial.setUsers(User.fromJsonArray(json));
+                List<User> users = serviceDetial.getUsers();
+                if (users != null) {
+                    String strUsers = "";
+                    int count = 0;
+                    for (User user : users) {
+                        strUsers = strUsers + user.getEmpNo() + ",";
+                        count++;
+                        if (count >= 3)
+                            break;
+
+                    }
+                    count = users.size() - 2;
+                    if (count > 0)
+                        strUsers = strUsers + "...(+" + count + ")";
+                    mEmployeesView.setText(strUsers);
+                }
                 break;
 
         }

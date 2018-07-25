@@ -1,8 +1,11 @@
 package com.ara.serviceapp.models;
 
 import com.ara.serviceapp.utils.AppLogic;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ServiceDetial {
@@ -15,6 +18,24 @@ public class ServiceDetial {
     private String spareReplace;
     private String requiredSpare;
     private String status;
+    private List<User> users;
+    private User logedUser;
+
+    public User getLogedUser() {
+        return logedUser;
+    }
+
+    public void setLogedUser(User logedUser) {
+        this.logedUser = logedUser;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
     public String getStatus() {
         return status;
@@ -94,4 +115,13 @@ public class ServiceDetial {
         return queryMap;
     }
 
+    public static ServiceDetial fromGson(String message) {
+        Gson gson = new GsonBuilder().create();
+        return gson.fromJson(message, ServiceDetial.class);
+    }
+
+    public String toJson() {
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(this);
+    }
 }

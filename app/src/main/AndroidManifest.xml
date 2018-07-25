@@ -26,7 +26,8 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DatePickerActivity" />
-        <activity android:name=".utils.ListActivity"></activity>
+        <activity android:name=".utils.ListActivity" />
+        <activity android:name=".utils.MultiSelectListActivity"></activity>
     </application>
 
 </manifest>
