@@ -62,6 +62,7 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
         switch (requestCode) {
             case CUSTOMER_SELECT:
                 Customer customer = (Customer) parent.getItemAtPosition(position);
+                AppLogic.getAppLogic().getTrucks(customer.getId());
                 String json = customer.toJson();
                 Intent intent = new Intent();
                 intent.putExtra(CUSTOMER_EXTRA, json);

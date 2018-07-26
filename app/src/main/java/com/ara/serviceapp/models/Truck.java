@@ -2,9 +2,12 @@ package com.ara.serviceapp.models;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 public class Truck {
+    @SerializedName("truck_id")
     private int id;
+    @SerializedName("truck_no")
     private String truckNo;
 
     public Truck() {

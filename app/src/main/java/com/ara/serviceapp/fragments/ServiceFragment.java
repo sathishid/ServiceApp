@@ -21,7 +21,8 @@ import android.widget.TextView;
 import com.ara.serviceapp.DatePickerActivity;
 import com.ara.serviceapp.R;
 import com.ara.serviceapp.models.Customer;
-import com.ara.serviceapp.models.ServiceDetial;
+import com.ara.serviceapp.models.ServiceDetail;
+import com.ara.serviceapp.models.ServiceRequestModel;
 import com.ara.serviceapp.models.Truck;
 import com.ara.serviceapp.models.User;
 import com.ara.serviceapp.utils.AppLogic;
@@ -52,7 +53,7 @@ import static com.ara.serviceapp.utils.Helper.showSnackBar;
 
 public class ServiceFragment extends Fragment implements View.OnClickListener {
 
-    ServiceDetial serviceDetial;
+    ServiceDetail serviceDetial;
     LinearLayout mDateLayout;
     LinearLayout mCustomerLayout;
     LinearLayout mTruckNoLayout;
@@ -74,6 +75,7 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
 
     Button mSaveButton;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
         AppLogic.getAppLogic().getCustomers();
         AppLogic.getAppLogic().getUsers();
 
-        serviceDetial = new ServiceDetial();
+        serviceDetial = new ServiceDetail();
 
         serviceDetial.setStatus(Helper.ServiceType.PENDING);
         serviceDetial.setDate(dateToString(Calendar.getInstance()));
@@ -90,6 +92,7 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
         layoutView = (RelativeLayout) rootView.findViewById(R.id.service_root_element_layout);
 
         mDateView = (TextView) rootView.findViewById(R.id.service_date);
+        mDateView.setText(serviceDetial.getDate());
         mCustomerView = (TextView) rootView.findViewById(R.id.service_customer);
         mTruckNo = (TextView) rootView.findViewById(R.id.service_truck);
         mEmployeesView = (TextView) rootView.findViewById(R.id.service_employees);
@@ -159,6 +162,8 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
                     showSnackBar(mCustomerLayout, R.string.choose_customer);
                     return;
                 }
+                List<Truck> truckList = AppLogic.getAppLogic().getTrucks(serviceDetial.getCustomer().getId());
+                serviceDetial.getCustomer().setTruckList(truckList);
                 intent = new Intent(getContext(), ListActivity.class);
                 intent.putExtra(REQUEST_CODE, TRUCK_SELECT);
                 intent.putExtra(CUSTOMER_EXTRA, serviceDetial.getCustomer().toJson());
@@ -183,7 +188,12 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
             return;
         }
         serviceDetial.setLogedUser(AppLogic.getAppLogic().CurrentUser);
-        Call<ResponseBody> call = AppLogic.getAppLogic().getAppService().postServiceDetail("serviceAdd", serviceDetial);
+        serviceDetial.getCustomer().setTruckList(null);
+
+        ServiceRequestModel serviceRequestModel = ServiceRequestModel.fromServiceDetail(serviceDetial);
+
+
+        Call<ResponseBody> call = AppLogic.getAppLogic().getAppService().postServiceDetail("serviceAdd", serviceRequestModel);
         showProgress(true);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -205,7 +215,7 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
     }
 
     private void clearAll() {
-        serviceDetial = new ServiceDetial();
+        serviceDetial = new ServiceDetail();
         mCustomerView.setText(R.string.sample_company_name);
         mTruckNo.setText(R.string.sample_truck_no);
 
@@ -256,6 +266,7 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
             case CUSTOMER_SELECT:
                 json = data.getStringExtra(CUSTOMER_EXTRA);
                 Customer customer = Customer.fromGson(json);
+                customer.setTruckList(AppLogic.getAppLogic().getTrucks(customer.getId()));
                 serviceDetial.setCustomer(customer);
                 mCustomerView.setText(customer.getCustomerName());
                 break;

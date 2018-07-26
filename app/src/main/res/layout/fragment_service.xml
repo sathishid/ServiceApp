@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lighRose"
     android:paddingBottom="57dp">
 
     <RelativeLayout
@@ -76,9 +77,10 @@
                     android:drawableEnd="@drawable/ic_right_arrow"
                     android:drawableRight="@drawable/ic_right_arrow"
                     android:gravity="right|center_vertical"
-                    android:text="@string/sample_company_name" />
+                    android:text="@string/select_company" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/service_employee_layout"
                 style="@style/InfoView"
@@ -105,7 +107,7 @@
                     android:drawableEnd="@drawable/ic_right_arrow"
                     android:drawableRight="@drawable/ic_right_arrow"
                     android:gravity="right|center_vertical"
-                    android:text="@string/sample_emp_list" />
+                    android:text="@string/select_employees" />
 
             </LinearLayout>
 
@@ -135,7 +137,7 @@
                     android:drawableEnd="@drawable/ic_right_arrow"
                     android:drawableRight="@drawable/ic_right_arrow"
                     android:gravity="right|center_vertical"
-                    android:text="@string/sample_truck_no" />
+                    android:text="@string/select_truck_no" />
 
             </LinearLayout>
 

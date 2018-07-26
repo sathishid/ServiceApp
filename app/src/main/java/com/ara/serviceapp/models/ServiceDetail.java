@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ServiceDetial {
+public class ServiceDetail {
 
     private String date;
     private Customer customer;
@@ -115,9 +115,9 @@ public class ServiceDetial {
         return queryMap;
     }
 
-    public static ServiceDetial fromGson(String message) {
+    public static ServiceDetail fromGson(String message) {
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(message, ServiceDetial.class);
+        return gson.fromJson(message, ServiceDetail.class);
     }
 
     public String toJson() {

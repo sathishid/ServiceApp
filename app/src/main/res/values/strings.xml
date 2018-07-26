@@ -40,4 +40,8 @@
     <string name="mark_attendance">Mark Attendance</string>
     <string name="employees">Employees</string>
     <string name="sample_emp_list">EMP01,EMP02..(+2)</string>
+    <string name="logout">logout</string>
+    <string name="select_company">Select a Company</string>
+    <string name="select_employees">Select Employees</string>
+    <string name="select_truck_no">Select Truck No</string>
 </resources>

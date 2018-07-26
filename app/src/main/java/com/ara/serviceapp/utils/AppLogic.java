@@ -3,11 +3,9 @@ package com.ara.serviceapp.utils;
 import android.util.Log;
 
 import com.ara.serviceapp.models.Customer;
-import com.ara.serviceapp.models.Employee;
 import com.ara.serviceapp.models.Truck;
 import com.ara.serviceapp.models.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -85,6 +83,27 @@ public class AppLogic {
         return users;
     }
 
+
+    public static List<Truck> trucks;
+
+    public List<Truck> getTrucks(int companyId) {
+        if (trucks == null || trucks.size() == 0) {
+            appService.listTrucks("truck", companyId)
+                    .enqueue(new Callback<List<Truck>>() {
+                        @Override
+                        public void onResponse(Call<List<Truck>> call, Response<List<Truck>> response) {
+                            trucks = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Truck>> call, Throwable t) {
+                            users = null;
+                            Log.d("Get Users", t.getMessage());
+                        }
+                    });
+        }
+        return trucks;
+    }
 
 
 }

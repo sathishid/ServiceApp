@@ -12,6 +12,7 @@ import android.widget.CheckedTextView;
 import android.widget.ListView;
 
 import com.ara.serviceapp.R;
+import com.ara.serviceapp.adapters.EmployeeAdapter;
 import com.ara.serviceapp.models.User;
 
 import java.util.ArrayList;
@@ -38,8 +39,8 @@ public class MultiSelectListActivity extends AppCompatActivity implements Adapte
         selectedItems = new ArrayList<User>();
         if (json == null || json.isEmpty())
             selectedItems = new ArrayList<User>();
-//        else
-//            selectedItems = User.fromJsonArray(json);
+        else
+            selectedItems = User.fromJsonArray(json);
         listView = (ListView) findViewById(R.id.search_recycler_view);
 
 
@@ -50,7 +51,8 @@ public class MultiSelectListActivity extends AppCompatActivity implements Adapte
         List<User> userList = AppLogic.getAppLogic().getUsers();
 
         if (userList != null) {
-            mAdapter = new ArrayAdapter<User>(this, android.R.layout.simple_list_item_multiple_choice, userList);
+
+            mAdapter = new EmployeeAdapter(this, userList);
             listView.setAdapter(mAdapter);
             listView.setOnItemClickListener(this);
         }
@@ -60,21 +62,31 @@ public class MultiSelectListActivity extends AppCompatActivity implements Adapte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CheckedTextView checkedTextView = (CheckedTextView) view;
+        User user = mAdapter.getItem(position);
 
         if (checkedTextView.isChecked()) {
-            selectedItems.remove(mAdapter.getItem(position));
+            user.setChecked(false);
+
         } else {
-            selectedItems.add(mAdapter.getItem(position));
+            user.setChecked(true);
+
         }
         checkedTextView.toggle();
     }
 
     @Override
     public void onBackPressed() {
+        selectedItems = new ArrayList<>();
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            User user = mAdapter.getItem(i);
+            if (user.isChecked())
+                selectedItems.add(user);
+        }
         if (selectedItems.size() == 0) {
             setResult(RESULT_CANCELED);
             finish();
         }
+
 
         Intent intent = new Intent();
         intent.putExtra(USER_LIST_EXTRA, User.toJson(selectedItems));

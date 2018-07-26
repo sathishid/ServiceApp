@@ -1,5 +1,7 @@
 package com.ara.serviceapp;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,8 @@ import android.view.MenuItem;
 
 import com.ara.serviceapp.fragments.AttendanceFragment;
 import com.ara.serviceapp.fragments.ServiceFragment;
+
+import static com.ara.serviceapp.utils.Helper.PREFERENCE_NAME;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,7 +74,14 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+            SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
             return true;
         }
 

@@ -20,6 +20,15 @@ public class User {
     private String password;
     @SerializedName("employee_no")
     private String empNo;
+    private boolean isChecked;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
 
     public User(int userId, String userName, String empNo) {
         this.userId = userId;

@@ -21,14 +21,16 @@ public class DatePickerActivity extends AppCompatActivity implements CalendarVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date_picker);
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
+            calendarView.setDate(System.currentTimeMillis(),true,true);
             calendarView.setOnDateChangeListener(this);
         } else {
-            final Calendar c = Calendar.getInstance();
-            int mYear = c.get(Calendar.YEAR);
-            int mMonth = c.get(Calendar.MONTH);
-            int mDay = c.get(Calendar.DAY_OF_MONTH);
+
             datePickerDialog = new DatePickerDialog(this, this, mYear, mMonth, mDay);
             datePickerDialog.show();
 
