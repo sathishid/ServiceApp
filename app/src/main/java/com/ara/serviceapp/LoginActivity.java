@@ -176,7 +176,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<User> call, Throwable t) {
                     showProgress(false);
-                    showSnackBar(mLoginFormView, t.getMessage());
+                    //showSnackBar(mLoginFormView, t.getMessage());
+                    showSnackBar(mLoginFormView, "Invalid User ID/Password");
                 }
             });
 

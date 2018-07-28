@@ -13,7 +13,7 @@ public class ServiceRequestModel {
     private String natureOfService;
     private String requiredSpare;
     private String spareReplaced;
-    private String status;
+    private int status;
     private List<Integer> employees;
     private int loggedUserId;
     private int truckId;
@@ -67,11 +67,11 @@ public class ServiceRequestModel {
         this.spareReplaced = spareReplaced;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

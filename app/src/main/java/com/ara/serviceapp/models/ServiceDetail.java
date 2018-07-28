@@ -1,12 +1,9 @@
 package com.ara.serviceapp.models;
 
-import com.ara.serviceapp.utils.AppLogic;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ServiceDetail {
 
@@ -17,7 +14,7 @@ public class ServiceDetail {
     private String natureOfService;
     private String spareReplace;
     private String requiredSpare;
-    private String status;
+    private int status;
     private List<User> users;
     private User logedUser;
 
@@ -37,11 +34,11 @@ public class ServiceDetail {
         this.users = users;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -99,20 +96,6 @@ public class ServiceDetail {
 
     public void setRequiredSpare(String requiredSpare) {
         this.requiredSpare = requiredSpare;
-    }
-
-    public Map<String, String> toHashMap() {
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put("date", date);
-        queryMap.put("employee_id", AppLogic.getAppLogic().CurrentUser.getUserId() + "");
-        queryMap.put("customer_id", customer.getId() + "");
-        queryMap.put("truck_id", truck.getId() + "");
-        queryMap.put("location", location);
-        queryMap.put("nature_of_service", natureOfService);
-        queryMap.put("required_spare", requiredSpare);
-        queryMap.put("spare_replace", spareReplace);
-        queryMap.put("status", status);
-        return queryMap;
     }
 
     public static ServiceDetail fromGson(String message) {

@@ -9,9 +9,9 @@ import java.util.Calendar;
 
 public class Helper {
     public static class ServiceType {
-        public static final String PENDING = "PENDING";
-        public static final String IN_PROGRESS = "IN PROGRESS";
-        public static final String COMPLETED = "COMPLETED";
+        public static final int PENDING = 1;
+        public static final int IN_PROGRESS = 2;
+        public static final int COMPLETED = 3;
     }
 
     public static final String REST_URL = "http://arasoftwares.in/lift-tech/";
@@ -24,7 +24,7 @@ public class Helper {
     public static final String CUSTOMER_EXTRA = "customer";
     public static final String TRUCK_EXTRA = "Truck";
     public static final String SERVICE_EXTRA = "service";
-    public static final String USER_LIST_EXTRA="user-list";
+    public static final String USER_LIST_EXTRA = "user-list";
 
 
     public final static int INTERNET_PERMISSION_REQUEST = 101;
