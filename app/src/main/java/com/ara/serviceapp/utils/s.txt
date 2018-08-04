@@ -1,0 +1,2 @@
+https://stackoverflow.com/questions/15698790/broadcast-receiver-for-checking-internet-connection-in-android-app
+https://stackoverflow.com/questions/15546712/unfortunately-app-is-getting-stopped-while-checking-for-network/15546897#15546897

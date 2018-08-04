@@ -13,6 +13,7 @@ public class ServiceDetail {
     private String location;
     private String natureOfService;
     private String spareReplace;
+    private String spareReject;
     private String requiredSpare;
     private int status;
     private List<User> users;
@@ -80,6 +81,14 @@ public class ServiceDetail {
 
     public void setNatureOfService(String natureOfService) {
         this.natureOfService = natureOfService;
+    }
+
+    public String getSpareReject() {
+        return spareReject;
+    }
+
+    public void setSpareReject(String spareReject) {
+        this.spareReject = spareReject;
     }
 
     public String getSpareReplace() {
