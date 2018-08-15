@@ -69,6 +69,7 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
     EditText mNatureOfServiceEdit;
     EditText mSpareReplacedEdit;
     EditText mSpareRequiredEdit;
+    EditText mSpareRejectedEdit;
     RadioButton mPendingRadio;
     RadioButton mProgressRadio;
     RadioButton mCompletedRadio;
@@ -101,6 +102,7 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
         mNatureOfServiceEdit = (EditText) rootView.findViewById(R.id.service_nature);
         mSpareReplacedEdit = (EditText) rootView.findViewById(R.id.service_spare_replace);
         mSpareRequiredEdit = (EditText) rootView.findViewById(R.id.service_spare_required);
+        mSpareRejectedEdit = (EditText) rootView.findViewById(R.id.service_spare_reject);
 
         mPendingRadio = (RadioButton) rootView.findViewById(R.id.service_pending);
         mPendingRadio.setOnClickListener(this);
@@ -223,6 +225,7 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
         mNatureOfServiceEdit.setText("");
         mSpareReplacedEdit.setText("");
         mSpareRequiredEdit.setText("");
+        mSpareRejectedEdit.setText("");
         mPendingRadio.toggle();
     }
 
@@ -232,6 +235,7 @@ public class ServiceFragment extends Fragment implements View.OnClickListener {
         serviceDetial.setNatureOfService(mNatureOfServiceEdit.getText().toString());
         serviceDetial.setRequiredSpare(mSpareRequiredEdit.getText().toString());
         serviceDetial.setSpareReplace(mSpareReplacedEdit.getText().toString());
+        serviceDetial.setSpareReject(mSpareRejectedEdit.getText().toString());
         if (serviceDetial.getCustomer() == null) {
             showSnackBar(mCustomerLayout, "Select Customer");
             return true;

@@ -13,11 +13,19 @@ public class ServiceRequestModel {
     private String natureOfService;
     private String requiredSpare;
     private String spareReplaced;
+    private String spareRejected;
     private int status;
     private List<Integer> employees;
     private int loggedUserId;
     private int truckId;
 
+    public String getSpareRejected() {
+        return spareRejected;
+    }
+
+    public void setSpareRejected(String spareRejected) {
+        this.spareRejected = spareRejected;
+    }
 
     public int getCustomerId() {
         return customerId;
@@ -101,6 +109,7 @@ public class ServiceRequestModel {
         serviceRequestModel.spareReplaced = serviceDetail.getSpareReplace();
         serviceRequestModel.status = serviceDetail.getStatus();
         serviceRequestModel.truckId = serviceDetail.getTruck().getId();
+        serviceRequestModel.spareRejected = serviceDetail.getSpareReject();
         if (serviceDetail.getUsers() != null) {
             serviceRequestModel.employees = new ArrayList<>(serviceDetail.getUsers().size());
             for (User user : serviceDetail.getUsers()) {

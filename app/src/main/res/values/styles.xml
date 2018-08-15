@@ -3,10 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/lightred</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
+        <item name="buttonStyle">@color/white</item>
 
     </style>
 
@@ -25,6 +25,7 @@
 
 
     </style>
-
-
+    <style name="MyAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

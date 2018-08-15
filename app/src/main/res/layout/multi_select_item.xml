@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/sample_company_name"
         android:checked="true"
+        android:checkMarkTint="@color/red"
         android:checkMark="@drawable/ic_checked"
 
         />

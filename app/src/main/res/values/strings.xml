@@ -27,6 +27,7 @@
     <string name="nature_of_service">Nature of Service</string>
     <string name="spare_replace">Spare Replace</string>
     <string name="spare_required">Spare Required</string>
+    <string name="spare_rejected">Spare Rejected</string>
     <string name="pending">PENDING</string>
     <string name="in_progress">IN PROGRESS</string>
     <string name="completed">COMPLETED</string>
